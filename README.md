@@ -43,18 +43,10 @@ services:
       - "6333:6333"
       - "6334:6334"
     volumes:
-      - qdrant_data:/qdrant/storage
+      - ./volume-qdrant:/qdrant/storage
     environment:
       - QDRANT__SERVICE__HTTP_PORT=6333
       - QDRANT__SERVICE__GRPC_PORT=6334
-
-volumes:
-  qdrant_data:
-  mcp_memory:  # Keep this for MCP container to use
-
-networks:
-  default:
-    name: claude-code-memory
 ```
 
 Start the database:
@@ -64,7 +56,7 @@ Start the database:
 docker compose up -d
 
 # Verify it's running
-curl http://localhost:6333/health
+curl http://YOUR_QDRANT_IP:6333/health
 ```
 
 ### 3. Add to Claude Code
@@ -214,7 +206,7 @@ The server provides health endpoints for monitoring:
 
 ```bash
 # Check if Qdrant is accessible (when running with exposed port)
-curl http://localhost:6333/health
+curl http://YOUR_QDRANT_IP:6333/health
 
 # For MCP server health, check Claude Code connection:
 claude mcp list  # Should show ✓ Connected
