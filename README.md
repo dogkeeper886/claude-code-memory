@@ -267,7 +267,7 @@ curl http://YOUR_QDRANT_IP:6333/collections
 
 ```bash
 # Clone repository
-git clone https://github.com/your-username/claude-code-memory.git
+git clone https://github.com/dogkeeper886/claude-code-memory.git
 cd claude-code-memory
 
 # Build image
