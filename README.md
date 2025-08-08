@@ -21,14 +21,7 @@ A Docker-based MCP (Model Context Protocol) server that provides persistent memo
 - [Ollama](https://ollama.com) running with embedding models
 - [Claude Code](https://claude.ai/code) CLI installed
 
-### 1. Pull the Image
-
-```bash
-# Pull the latest pre-built image
-docker pull dogkeeper886/claude-code-memory-mcp-server:latest
-```
-
-### 2. Database Setup with Docker Compose
+### 1. Database Setup with Docker Compose
 
 Create a `docker-compose.yml` file for the Qdrant vector database:
 
@@ -56,7 +49,29 @@ Start the database:
 docker compose up -d
 
 # Verify it's running
-curl http://YOUR_QDRANT_IP:6333/health
+curl http://YOUR_QDRANT_IP:6333
+```
+
+### 2. Ollama Setup with Docker Compose
+
+Add Ollama to your `docker-compose.yml`:
+
+```yaml
+services:
+  ollama:
+    image: ollama/ollama
+    ports: ["11434:11434"]
+    volumes: ["./volume-ollama:/root/.ollama"]
+    runtime: nvidia
+    restart: unless-stopped
+```
+
+Pull required models:
+
+```bash
+docker compose up -d ollama
+docker exec ollama ollama pull llama3.2:3b
+docker exec ollama ollama pull nomic-embed-text:v1.5
 ```
 
 ### 3. Add to Claude Code
@@ -68,7 +83,7 @@ claude mcp add mem0-memory -- docker run --rm -i \
   -e OLLAMA_URL=http://YOUR_OLLAMA_IP:11434 \
   -e QDRANT_HOST=YOUR_QDRANT_IP \
   -e OLLAMA_MODEL=llama3.2:3b \
-  -e EMBED_MODEL=nomic-embed-text \
+  -e EMBED_MODEL=nomic-embed-text:v1.5 \
   dogkeeper886/claude-code-memory-mcp-server:latest
 ```
 
