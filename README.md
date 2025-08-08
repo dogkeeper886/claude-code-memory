@@ -70,7 +70,6 @@ Pull required models:
 
 ```bash
 docker compose up -d ollama
-docker exec ollama ollama pull llama3.2:3b
 docker exec ollama ollama pull nomic-embed-text:v1.5
 ```
 
@@ -82,7 +81,6 @@ claude mcp add mem0-memory -- docker run --rm -i \
   --network host \
   -e OLLAMA_URL=http://YOUR_OLLAMA_IP:11434 \
   -e QDRANT_HOST=YOUR_QDRANT_IP \
-  -e OLLAMA_MODEL=llama3.2:3b \
   -e EMBED_MODEL=nomic-embed-text:v1.5 \
   dogkeeper886/claude-code-memory-mcp-server:latest
 ```
@@ -107,8 +105,7 @@ claude mcp list
 |----------|-------------|---------|----------|
 | `OLLAMA_URL` | Ollama server URL | - | ✅ |
 | `QDRANT_HOST` | Qdrant host IP/hostname | - | ✅ |
-| `OLLAMA_MODEL` | LLM model for processing | `llama3.2:3b` | ❌ |
-| `EMBED_MODEL` | Embedding model | `nomic-embed-text` | ❌ |
+| `EMBED_MODEL` | Embedding model | nomic-embed-text | ✅ |
 | `QDRANT_PORT` | Qdrant port | `6333` | ❌ |
 
 ### Ollama Setup
