@@ -212,52 +212,6 @@ docker run --rm -v qdrant_data:/data -v $(pwd):/backup alpine \
   tar xzf /backup/qdrant-backup.tar.gz -C /data
 ```
 
-## 🏥 Health Check
-
-The server provides health endpoints for monitoring:
-
-```bash
-# Check if Qdrant is accessible (when running with exposed port)
-curl http://YOUR_QDRANT_IP:6333/health
-
-# For MCP server health, check Claude Code connection:
-claude mcp list  # Should show ✓ Connected
-```
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**MCP server not connecting:**
-```bash
-# Check if Ollama is running
-curl http://YOUR_OLLAMA_IP:11434/api/tags
-
-# Check if Qdrant is running
-curl http://YOUR_QDRANT_IP:6333/health
-
-# Verify Claude Code can access Docker
-claude mcp list
-```
-
-**Slow memory search:**
-```bash
-# Check Ollama model is downloaded
-ollama list | grep nomic-embed-text
-
-# Verify network connectivity
-docker run --rm --network host alpine ping YOUR_OLLAMA_IP
-```
-
-**Memory not persisting:**
-```bash
-# Check Qdrant data volume exists
-docker volume ls | grep qdrant_data
-
-# Verify Qdrant is storing data
-curl http://YOUR_QDRANT_IP:6333/collections
-```
-
 ### Getting Help
 
 1. **Check logs**: `docker logs mem0-memory-mcp` (if running detached)
